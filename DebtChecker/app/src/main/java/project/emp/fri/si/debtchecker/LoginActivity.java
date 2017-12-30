@@ -17,7 +17,7 @@ import java.util.concurrent.ExecutionException;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity implements RegisterDialogFragment.RegisterDialogListener {
+public class LoginActivity extends AppCompatActivity implements RegisterDialogFragment.CustomDialogListener {
 
     // UI references.
     private AutoCompleteTextView mUsernameView;
@@ -27,7 +27,7 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialogFr
     private View mLoginFormView;
 
     // Next activity
-    Intent nextActivity = null;
+    Intent nextActivityIntent = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +48,8 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialogFr
 
                 // Now enter the next activity if login was ok
                 if (loginOK) {
-                    nextActivity = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(nextActivity);
+                    nextActivityIntent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(nextActivityIntent);
 
                     // Just display the value
                     Toast.makeText(LoginActivity.this, "You are now logged in as: " + mUsernameView.getText().toString(), Toast.LENGTH_SHORT).show();
@@ -57,10 +57,6 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialogFr
 
             }
         });
-
-
-        // Setup next activity for register activity and add extra data to it
-        nextActivity = new Intent(LoginActivity.this, M);
     }
 
 
@@ -74,7 +70,13 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialogFr
                 return true;
 
             if (out.equals("noResult")) {
-                DialogFragment regDial = new RegisterDialogFragment();
+                // Setup next activity for register activity and add extra data to it (in case a user selects yes)
+                nextActivityIntent = new Intent(LoginActivity.this, RegisterActivity.class);
+                nextActivityIntent.putExtra("loginName", user);
+                nextActivityIntent.putExtra("password", password);
+
+                // Show a dialog fragment
+                RegisterDialogFragment regDial = new RegisterDialogFragment();
                 regDial.show(getFragmentManager(), "Register?");
             }
 
@@ -95,8 +97,7 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialogFr
         // User touched the dialog's positive button
 
         // Start a register activity, so the user can register officially
-
-
+        startActivity(nextActivityIntent);
     }
 
     @Override

@@ -1,5 +1,5 @@
 CREATE TABLE Oseba(
-id INT,
+id INT AUTO_INCREMENT,
 ime VARCHAR(50) NULL,
 priimek VARCHAR(50) NULL,
 e_mail VARCHAR(50) NULL,
@@ -10,7 +10,7 @@ CONSTRAINT id_oseba_pk PRIMARY KEY(id)
 );
 
 CREATE TABLE Placilo(
-id INT,
+id INT AUTO_INCREMENT,
 znesek double NOT NULL,
 datum VARCHAR(10) NOT NULL,
 idOseba INT,

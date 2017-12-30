@@ -4,6 +4,7 @@ import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AutoCompleteTextView;
@@ -17,14 +18,18 @@ import java.util.concurrent.ExecutionException;
 /**
  * A login screen that offers login via email/password.
  */
-public class RegisterActivity extends AppCompatActivity implements RegisterDialogFragment.RegisterDialogListener {
+public class RegisterActivity extends AppCompatActivity implements DecisionDialogFragment.CustomDialogListener {
 
     // UI references.
-    private AutoCompleteTextView mUsernameView;
-    private EditText mPasswordView;
-    private Button mSignInBtnView;
+    private EditText mNameView;
+    private EditText mSurnameView;
+    private EditText mEmailView;
+    private EditText mNicknameView;
+    private EditText mUsernameView;
+    private EditText mPasswordView0;
+    private EditText mPasswordView1;
+    private Button mRegisterBtnView;
     private View mProgressView;
-    private View mLoginFormView;
 
     // Next activity
     Intent nextActivity = null;
@@ -35,68 +40,93 @@ public class RegisterActivity extends AppCompatActivity implements RegisterDialo
         setContentView(R.layout.activity_register);
 
         // Set up the login form.
-        mUsernameView = (AutoCompleteTextView) findViewById(R.id.email);
-        mPasswordView = (EditText) findViewById(R.id.password);
-        mSignInBtnView = (Button) findViewById(R.id.sign_in_button);
+        mNameView = (EditText) findViewById(R.id.register_atribute_name);
+        mSurnameView = (EditText) findViewById(R.id.register_atribute_surname);
+        mEmailView = (EditText) findViewById(R.id.register_atribute_email);
+        mUsernameView = (EditText) findViewById(R.id.register_atribute_username);
+        mNicknameView = (EditText) findViewById(R.id.register_atribute_nickname);
+        mPasswordView0 = (EditText) findViewById(R.id.register_atribute_password0);
+        mPasswordView1 = (EditText) findViewById(R.id.register_atribute_password1);
+        mRegisterBtnView = (Button) findViewById(R.id.register_button);
         mProgressView = (ProgressBar) findViewById(R.id.login_progress);
 
-        mSignInBtnView.setOnClickListener(new OnClickListener() {
+        mRegisterBtnView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                boolean loginOK = tryLogin(mUsernameView.getText().toString(), mPasswordView.getText().toString());
-
-                // Now enter the next activity if login was ok
-                if (loginOK) {
-                    nextActivity = new Intent(RegisterActivity.this, MainActivity.class);
-                    startActivity(nextActivity);
-
-                    // Just display the value
-                    Toast.makeText(RegisterActivity.this, "You are now logged in as: " + mUsernameView.getText().toString(), Toast.LENGTH_SHORT).show();
+                if (checkInputs()) {
+                    DecisionDialogFragment decisionDial = new DecisionDialogFragment();
+                    decisionDial.show(getFragmentManager(), "Sure?");
+                } else {
+                    Toast.makeText(RegisterActivity.this, "Some data isn't entered correctly. Check again!", Toast.LENGTH_LONG).show();
                 }
-
             }
         });
 
+        mEmailView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
 
-        // Setup next activity for register activity and add extra data to it
-        nextActivity = new Intent(RegisterActivity.this, M);
-    }
-
-
-    private boolean tryLogin(String user, String password) {
-
-        try {
-            String out = new DBInterface("login", this.mProgressView).execute(user).get();
-            String enPass = DBInterface.encryptSHA256(password);
-
-            if (out.equals(enPass))
-                return true;
-
-            if (out.equals("noResult")) {
-                DialogFragment regDial = new RegisterDialogFragment();
-                regDial.show(getFragmentManager(), "Register?");
+                // Check if email contains @ and has letters before and after @
+                // TO DO!!!
+                String content = ((EditText) v).getText().toString();
+                if (!content.contains("@"))
+                    ((EditText) v).setError("Email not correct");
             }
+        });
 
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        View.OnFocusChangeListener passFocus = new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
 
-        return false;
+                if (!mPasswordView0.getText().toString().equals(mPasswordView1.getText().toString())) {
+                    mPasswordView0.setError("Passwords do not match");
+                    mPasswordView1.setError("Passwords do not match");
+                }
+            }
+        };
+        mPasswordView0.setOnFocusChangeListener(passFocus);
+        mPasswordView1.setOnFocusChangeListener(passFocus);
+
+        // Set the values entered in the previus activity (login)
+        String prev0 = getIntent().getStringExtra("loginName");
+        String prev1 = getIntent().getStringExtra("password");
+
+        if (prev0.contains("@"))
+            mEmailView.setText(prev0);
+        else
+            mUsernameView.setText(prev0);
+
+        mPasswordView0.setText(prev1);
+        mPasswordView1.setText(prev1);
     }
 
-    // The dialog fragment receives a reference to this Activity through the
-    // Fragment.onAttach() callback, which it uses to call the following methods
-    // defined by the NoticeDialogFragment.NoticeDialogListener interface
+
+    private boolean makeRegistration() {
+
+        return DBInterface.insertUser(mNameView.getText().toString(), mSurnameView.getText().toString(), mEmailView.getText().toString(), mNicknameView.getText().toString(), mUsernameView.getText().toString(), mPasswordView0.getText().toString());
+    }
+
     @Override
     public void onDialogPositiveClick(DialogFragment dialog) {
         // User touched the dialog's positive button
 
-        // Start a register activity, so the user can register officially
+        boolean registrationOK = makeRegistration();
 
+        if (registrationOK) {
+            Toast.makeText(RegisterActivity.this, "You have registered successfully as: " + mUsernameView.getText().toString(), Toast.LENGTH_LONG).show();
 
+            Intent nextActivityIntent = new Intent(RegisterActivity.this, MainActivity.class);
+            startActivity(nextActivityIntent);
+        } else {
+            Toast.makeText(RegisterActivity.this, "Registration failed. Retrying...", Toast.LENGTH_LONG).show();
+        }
+
+        registrationOK = makeRegistration();
+
+        if (!registrationOK) {
+            Toast.makeText(RegisterActivity.this, "Registration failed again. Try again later!", Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
@@ -104,6 +134,78 @@ public class RegisterActivity extends AppCompatActivity implements RegisterDialo
         // User touched the dialog's negative button
 
         // Do nothing -- this is just a cancel button (Lahko odstraniva to, če želiva.. ne vem)
+    }
+
+    private boolean checkInputs() {
+
+        if (mNameView.getText().toString().length() > 50) {
+            mNameView.setError("Max 50 characters");
+            return false;
+        }
+
+        if (mSurnameView.getText().toString().length() > 50) {
+            mSurnameView.setError("Max 50 characters");
+            return false;
+        }
+
+        if (mEmailView.getText().toString().length() > 50) {
+            mEmailView.setError("Max 50 characters");
+            return false;
+        }
+
+        if (mNicknameView.getText().toString().length() > 50) {
+            mNicknameView.setError("Max 50 characters");
+            return false;
+        }
+
+        if (mUsernameView.getText().toString().length() > 50) {
+            mUsernameView.setError("Max 50 characters");
+            return false;
+        }
+
+        if (mPasswordView0.getText().toString().length() > 50) {
+            mPasswordView0.setError("Max 50 characters");
+            return false;
+        }
+
+        if (mPasswordView1.getText().toString().length() > 50) {
+            mPasswordView1.setError("Max 50 characters");
+            return false;
+        }
+
+        if (mNameView.getText().toString().isEmpty()) {
+            mNameView.setError("Field empty");
+            return false;
+        }
+
+        if (mUsernameView.getText().toString().isEmpty()) {
+            mUsernameView.setError("Field empty");
+            return false;
+        }
+
+        if (mEmailView.getText().toString().isEmpty()) {
+            mEmailView.setError("Field empty");
+            return false;
+        }
+
+        if (mPasswordView0.getText().toString().isEmpty()) {
+            mPasswordView0.setError("Field empty");
+            return false;
+        }
+
+        if (mPasswordView1.getText().toString().isEmpty()) {
+            mPasswordView1.setError("Field empty");
+            return false;
+        }
+
+        if (!mPasswordView0.getText().toString().equals(mPasswordView1.getText().toString())) {
+            mPasswordView0.setError("Passwords do not match");
+            mPasswordView1.setError("Passwords do not match");
+            return false;
+        }
+
+
+        return true;
     }
 }
 

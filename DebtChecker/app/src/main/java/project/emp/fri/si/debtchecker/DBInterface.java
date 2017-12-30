@@ -42,12 +42,78 @@ public class DBInterface extends AsyncTask<String, Integer, String> {
         this.progressBar = progress;
     }
 
-    public static String query(String[] atributes, String table, String[] conditions) {
+    public static boolean insertUser(String name, String surname, String email, String nickname, String username, String password) {
 
-        return querySpecial(atributes, table, null, conditions, null);
+        String insertStr = "INSERT INTO Oseba VALUES ('" + name + "', '" + surname + "', '" + email + "', '" + nickname + "', '" + username + "', '" + DBInterface.encryptSHA256(password) + ")";
+        try {
+            String out = new DBInterface("insert", null).execute(insertStr).get();
+
+            if (!out.equals(""))
+                return false;
+
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return true;
     }
 
-    static String querySpecial(String[] atributes, String table, String[] joins, String[] conditions, String[] group) {
+    public static boolean insert(String[] attributeNames, String[] attributeValues, String table, String[] conditions) {
+
+        StringBuilder attNames = new StringBuilder("");
+        for (String attName : attributeNames)
+            attNames.append("'" + attName + "', ");
+        attNames.delete(attNames.length() - 3, attNames.length() - 1);
+
+        StringBuilder attValues = new StringBuilder("");
+        for (String attValue : attributeValues)
+            attNames.append("'" + attValues + "', ");
+        attNames.delete(attNames.length() - 3, attNames.length() - 1);
+
+        String insertStr = "INSERT INTO " + table + " (" + attNames.toString() + ") VALUES (" + attNames.toString() + ")";
+
+        try {
+            String out = new DBInterface("login", null).execute(insertStr).get();
+
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    static String queryUser(String[] attributes, int id) {
+
+        StringBuilder att = new StringBuilder("");
+        for (String attribute : attributes)
+            att.append("'" + attribute + "', ");
+        att.delete(att.length() - 3, att.length() - 1);
+
+        String insertStr = "SELECT " + att.toString() + " FROM Oseba WHERE id=" + id;
+        String out = null;
+        try {
+            out = new DBInterface("insert", null).execute(insertStr).get();
+            System.out.println(out);
+
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return out;
+    }
+
+    static String query(String[] attributes, String table, String[] conditions) {
+
+        return querySpecial(attributes, table, null, conditions, null);
+    }
+
+    static String querySpecial(String[] attributes, String table, String[] joins, String[] conditions, String[] group) {
 
         // Create a query string from the data given... will be done soon.. give a man some time!
         return null;
@@ -100,7 +166,7 @@ public class DBInterface extends AsyncTask<String, Integer, String> {
                 //this.progressBar.setVisibility(View.VISIBLE);
                 out = sentHttpPOST(url, encodedData, true);
 
-                if(out.equals(""))
+                if (out.equals(""))
                     out = "noResult";
 
                 break;
@@ -115,6 +181,17 @@ public class DBInterface extends AsyncTask<String, Integer, String> {
                 }
 
                 out = sentHttpPOST(url, encodedData, false);
+                break;
+            case "insert":
+
+                url += "RESTinsert.php";
+                try {
+                    encodedData += "&" + URLEncoder.encode("insertString", "UTF-8") + "=" + URLEncoder.encode(params[0], "UTF-8");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+
+                out = sentHttpPOST(url, encodedData, true);
                 break;
         }
         return out;
@@ -165,7 +242,10 @@ public class DBInterface extends AsyncTask<String, Integer, String> {
                         sb.append(line + "\n");
                     }
                     br.close();
-                    return sb.substring(0, sb.length() - 1);
+
+                    // Return a substring of the result without the last \n
+                    // max function takes care, so that if the string is too short, it still returns only an empty string
+                    return sb.substring(0, Math.max(sb.length() - 1, 0));
                 case 500:
                     return "500EROOOR PISMO!";
             }

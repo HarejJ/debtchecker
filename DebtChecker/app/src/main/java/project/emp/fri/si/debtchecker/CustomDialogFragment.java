@@ -12,23 +12,7 @@ import android.os.Bundle;
  * Created by Jan on 28. 12. 2017.
  */
 
-@SuppressLint("ValidFragment")
 public class CustomDialogFragment extends DialogFragment {
-
-    // Integer values for string dialogs used
-    private int messageID;
-    private int positiveID;
-    private int negativeID;
-
-
-    @SuppressLint("ValidFragment")
-    CustomDialogFragment(int mainMsgID, int positiveMsgID, int negativeMsgID) {
-        super();
-        this.messageID = mainMsgID;
-        this.positiveID = positiveMsgID;
-        this.negativeID = negativeMsgID;
-    }
-
 
     /* The activity that creates an instance of this dialog fragment must
      * implement this interface in order to receive event callbacks.
@@ -59,16 +43,21 @@ public class CustomDialogFragment extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+
+        int messageID = savedInstanceState.getInt("mainMsgID");
+        int positiveID = savedInstanceState.getInt("positiveMsgID");
+        int negativeID = savedInstanceState.getInt("negativeMsgID");
+
         // Build the dialog and set up the button click handlers
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage(this.messageID)
-                .setPositiveButton(this.positiveID, new DialogInterface.OnClickListener() {
+        builder.setMessage(messageID)
+                .setPositiveButton(positiveID, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // Send the positive button event back to the host activity
                         mListener.onDialogPositiveClick(CustomDialogFragment.this);
                     }
                 })
-                .setNegativeButton(this.negativeID, new DialogInterface.OnClickListener() {
+                .setNegativeButton(negativeID, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // Send the negative button event back to the host activity
                         mListener.onDialogNegativeClick(CustomDialogFragment.this);
