@@ -42,9 +42,9 @@ public class DBInterface extends AsyncTask<String, Integer, String> {
         this.progressBar = progress;
     }
 
-    public static boolean insertUser(String name, String surname, String email, String nickname, String username, String password) {
+    static boolean insertUser(String name, String surname, String email, String nickname, String username, String password) {
 
-        String insertStr = "INSERT INTO Oseba VALUES ('" + name + "', '" + surname + "', '" + email + "', '" + nickname + "', '" + username + "', '" + DBInterface.encryptSHA256(password) + ")";
+        String insertStr = "INSERT INTO Oseba  VALUES (NULL, '" + name + "', '" + surname + "', '" + email + "', '" + nickname + "', '" + username + "', '" + DBInterface.encryptSHA256(password) + "')";
         try {
             String out = new DBInterface("insert", null).execute(insertStr).get();
 

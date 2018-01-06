@@ -9,13 +9,18 @@
 	if (mysqli_connect_errno($conn)) {
 		echo "Failed to connect to MySQL: " . mysqli_connect_error();
 	}else{
-
+		mysqli_autocommit($conn, FALSE);
+		
 		$insertString = $_POST['insertString'];
 		$result = mysqli_query($conn, $insertString);
 		$data = "";
 		
-		echo $data;
+		/* commit transaction */
+		if (!mysqli_commit($conn)) {
+			$data = "Transaction commit failed";
+		}
 		
+		echo $data;
 		mysqli_close($conn);
 	}
 ?>
