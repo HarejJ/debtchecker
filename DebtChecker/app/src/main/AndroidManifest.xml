@@ -32,22 +32,26 @@
         <activity
             android:name=".RegisterActivity"
             android:label="@string/title_activity_register"
-            android:screenOrientation="userPortrait"/>
+            android:screenOrientation="userPortrait" />
         <activity
             android:name=".DebtActivity"
             android:label="@string/title_activity_debt"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="userPortrait" />
+            android:screenOrientation="userPortrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="userPortrait" />
+            android:screenOrientation="userPortrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".NewDebtActivity"
-            android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="userPortrait"></activity>
+            android:name=".NewPaymentActivity"
+            android:label="@string/title_activity_new_payment"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="project.emp.fri.si.debtchecker.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

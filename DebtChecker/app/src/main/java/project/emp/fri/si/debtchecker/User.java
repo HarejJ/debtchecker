@@ -20,6 +20,7 @@ public class User {
 
         if (id >= 0) {
             String[] attributes = DBInterface.queryUserAll(id).split(" ");
+            System.out.println(attributes.toString());
 
             this.name = attributes[0];
             this.surname = attributes[1];
