@@ -13,23 +13,40 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     static User loggedUser;
+    private ImageView addNewButton;
+    private ImageView paymentHistoryButton;
+    private ImageView activeDebtsButton;
+    private ImageView settingsButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        addNewButton = (ImageView) findViewById(R.id.addNewButton);
+        paymentHistoryButton = (ImageView) findViewById(R.id.paymentHistoryButton);
+        activeDebtsButton = (ImageView) findViewById(R.id.activeDebtsButton);
+        settingsButton = (ImageView) findViewById(R.id.settingsButton);
+
         // Init user
         loggedUser = new User(getIntent().getIntExtra("userID", -1));
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        /*
+        paymentHistoryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+            }
+        });
+        */
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
