@@ -19,7 +19,7 @@ public class User {
         this.id = id;
 
         if (id != -1) {
-            String[] attributes = DBInterface.queryUser(new String[]{"ime", "priimek", "e_mail", "vzdevek", "uporabnisko_ime", "uporabnisko_geslo"}, id).split(" ");
+            String[] attributes = DBInterface.queryUser(new String[]{"*"}, id).split(" ");
 
             this.name = attributes[0];
             this.surname = attributes[1];

@@ -13,12 +13,9 @@
 		
 		$insertString = $_POST['insertString'];
 		$result = mysqli_query($conn, $insertString);
-		$data = "";
 		
-		/* commit transaction */
-		if (!mysqli_commit($conn)) {
-			$data = "Transaction commit failed";
-		}
+		mysqli_commit($conn);
+		$data = mysqli_fetch_row(mysqli_query($conn, "SELECT MAX( id ) FROM Oseba"))[0];
 		
 		echo $data;
 		mysqli_close($conn);

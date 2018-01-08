@@ -40,15 +40,15 @@ public class RegisterActivity extends AppCompatActivity implements DecisionDialo
         setContentView(R.layout.activity_register);
 
         // Set up the login form.
-        mNameView = (EditText) findViewById(R.id.register_atribute_name);
-        mSurnameView = (EditText) findViewById(R.id.register_atribute_surname);
-        mEmailView = (EditText) findViewById(R.id.register_atribute_email);
-        mUsernameView = (EditText) findViewById(R.id.register_atribute_username);
-        mNicknameView = (EditText) findViewById(R.id.register_atribute_nickname);
-        mPasswordView0 = (EditText) findViewById(R.id.register_atribute_password0);
-        mPasswordView1 = (EditText) findViewById(R.id.register_atribute_password1);
-        mRegisterBtnView = (Button) findViewById(R.id.register_button);
-        mProgressView = (ProgressBar) findViewById(R.id.login_progress);
+        mNameView = findViewById(R.id.register_atribute_name);
+        mSurnameView = findViewById(R.id.register_atribute_surname);
+        mEmailView = findViewById(R.id.register_atribute_email);
+        mUsernameView = findViewById(R.id.register_atribute_username);
+        mNicknameView = findViewById(R.id.register_atribute_nickname);
+        mPasswordView0 = findViewById(R.id.register_atribute_password0);
+        mPasswordView1 = findViewById(R.id.register_atribute_password1);
+        mRegisterBtnView = findViewById(R.id.register_button);
+        mProgressView = findViewById(R.id.login_progress);
 
         mRegisterBtnView.setOnClickListener(new OnClickListener() {
             @Override

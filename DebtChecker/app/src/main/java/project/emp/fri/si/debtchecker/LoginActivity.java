@@ -35,20 +35,21 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialogFr
         setContentView(R.layout.activity_login);
 
         // Set up the login form.
-        mUsernameView = (AutoCompleteTextView) findViewById(R.id.email);
-        mPasswordView = (EditText) findViewById(R.id.password);
-        mSignInBtnView = (Button) findViewById(R.id.sign_in_button);
-        mProgressView = (ProgressBar) findViewById(R.id.login_progress);
+        mUsernameView = findViewById(R.id.email);
+        mPasswordView = findViewById(R.id.password);
+        mSignInBtnView = findViewById(R.id.sign_in_button);
+        mProgressView = findViewById(R.id.login_progress);
 
         mSignInBtnView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                boolean loginOK = tryLogin(mUsernameView.getText().toString(), mPasswordView.getText().toString());
+                int userId = tryLogin(mUsernameView.getText().toString(), mPasswordView.getText().toString());
 
                 // Now enter the next activity if login was ok
-                if (loginOK) {
+                if (userId >= 0) {
                     nextActivityIntent = new Intent(LoginActivity.this, MainActivity.class);
+                    nextActivityIntent.putExtra("userID", userId);
                     startActivity(nextActivityIntent);
 
                     // Just display the value
@@ -60,16 +61,12 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialogFr
     }
 
 
-    private boolean tryLogin(String user, String password) {
+    private int tryLogin(String user, String password) {
 
         try {
-            String out = new DBInterface("login", this.mProgressView).execute(user).get();
-            String enPass = DBInterface.encryptSHA256(password);
+            String[] out = new DBInterface("login", this.mProgressView).execute(user).get().split(" ");
 
-            if (out.equals(enPass))
-                return true;
-
-            if (out.equals("noResult")) {
+            if (out[0].equals("noResult")) {
                 // Setup next activity for register activity and add extra data to it (in case a user selects yes)
                 nextActivityIntent = new Intent(LoginActivity.this, RegisterActivity.class);
                 nextActivityIntent.putExtra("loginName", user);
@@ -78,7 +75,8 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialogFr
                 // Show a dialog fragment
                 RegisterDialogFragment regDial = new RegisterDialogFragment();
                 regDial.show(getFragmentManager(), "Register?");
-            }
+            }else if (out[1].equals(DBInterface.encryptSHA256(password)))
+                return Integer.parseInt(out[0]);
 
         } catch (ExecutionException e) {
             e.printStackTrace();
@@ -86,7 +84,7 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialogFr
             e.printStackTrace();
         }
 
-        return false;
+        return -2;
     }
 
     // The dialog fragment receives a reference to this Activity through the

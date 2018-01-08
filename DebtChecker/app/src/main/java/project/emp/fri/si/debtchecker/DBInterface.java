@@ -46,6 +46,7 @@ public class DBInterface extends AsyncTask<String, Integer, String> {
 
         String insertStr = "INSERT INTO Oseba  VALUES (NULL, '" + name + "', '" + surname + "', '" + email + "', '" + nickname + "', '" + username + "', '" + DBInterface.encryptSHA256(password) + "')";
         try {
+
             String out = new DBInterface("insert", null).execute(insertStr).get();
 
             if (!out.equals(""))
@@ -94,10 +95,11 @@ public class DBInterface extends AsyncTask<String, Integer, String> {
         att.delete(att.length() - 3, att.length() - 1);
 
         String insertStr = "SELECT " + att.toString() + " FROM Oseba WHERE id=" + id;
+        System.out.println("***&& " + insertStr);
         String out = null;
         try {
             out = new DBInterface("insert", null).execute(insertStr).get();
-            System.out.println(out);
+            System.out.println("***" + out);
 
         } catch (ExecutionException e) {
             e.printStackTrace();
@@ -166,7 +168,7 @@ public class DBInterface extends AsyncTask<String, Integer, String> {
                 //this.progressBar.setVisibility(View.VISIBLE);
                 out = sentHttpPOST(url, encodedData, true);
 
-                if (out.equals(""))
+                if (out.length() < 40)
                     out = "noResult";
 
                 break;
