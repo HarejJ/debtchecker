@@ -12,10 +12,12 @@
 
 		$selectString = $_POST['selectString'];
 		$result = mysqli_query($conn, $selectString);
-		$row = mysqli_fetch_array($result);
+		$row = mysqli_fetch_row($result);
 		
-		echo $row;
+		// Array to string with spaces in between
+		$data = implode(" ", $row);
 		
+		echo $data;
 		mysqli_close($conn);
 	}
 ?>

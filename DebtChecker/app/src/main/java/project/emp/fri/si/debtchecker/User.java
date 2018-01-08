@@ -18,8 +18,8 @@ public class User {
 
         this.id = id;
 
-        if (id != -1) {
-            String[] attributes = DBInterface.queryUser(new String[]{"*"}, id).split(" ");
+        if (id >= 0) {
+            String[] attributes = DBInterface.queryUserAll(id).split(" ");
 
             this.name = attributes[0];
             this.surname = attributes[1];

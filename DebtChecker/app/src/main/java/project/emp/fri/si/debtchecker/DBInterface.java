@@ -87,6 +87,23 @@ public class DBInterface extends AsyncTask<String, Integer, String> {
         return false;
     }
 
+    static String queryUserAll(int id) {
+
+        String insertStr = "SELECT * FROM Oseba WHERE id=" + id;
+        String out = null;
+        try {
+            out = new DBInterface("select", null).execute(insertStr).get();
+            System.out.println("***" + out);
+
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return out;
+    }
+
     static String queryUser(String[] attributes, int id) {
 
         StringBuilder att = new StringBuilder("");
@@ -95,7 +112,7 @@ public class DBInterface extends AsyncTask<String, Integer, String> {
         att.delete(att.length() - 3, att.length() - 1);
 
         String insertStr = "SELECT " + att.toString() + " FROM Oseba WHERE id=" + id;
-        System.out.println("***&& " + insertStr);
+        System.out.println("***&&" + insertStr);
         String out = null;
         try {
             out = new DBInterface("insert", null).execute(insertStr).get();
@@ -176,7 +193,7 @@ public class DBInterface extends AsyncTask<String, Integer, String> {
             case "select":
                 url += "RESTselect.php";
                 try {
-                    encodedData += "&" + URLEncoder.encode("username", "UTF-8") + "=" + URLEncoder.encode(params[0], "UTF-8");
+                    encodedData += "&" + URLEncoder.encode("selectString", "UTF-8") + "=" + URLEncoder.encode(params[0], "UTF-8");
                     // Need to add constructive data
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();

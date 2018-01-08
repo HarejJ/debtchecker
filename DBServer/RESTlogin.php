@@ -15,7 +15,7 @@
 		$row = mysqli_fetch_row($result);
 		
 		// Array to string with spaces in between
-		$data = implode(" ",$row);
+		$data = implode(" ", $row);
 		
 		if($data){
 			echo $data;
