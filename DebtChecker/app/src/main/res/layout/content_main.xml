@@ -38,7 +38,7 @@
             android:layout_height="wrap_content" />
 
         <ImageView
-            android:id="@+id/imageView15"
+            android:id="@+id/addNewButton"
             android:layout_width="100dp"
             android:layout_height="100dp"
             app:srcCompat="@drawable/ic_main_activity_button_orange" />
@@ -48,7 +48,7 @@
             android:layout_height="wrap_content" />
 
         <ImageView
-            android:id="@+id/imageView17"
+            android:id="@+id/paymentHistoryButton"
             android:layout_width="100dp"
             android:layout_height="100dp"
             app:srcCompat="@drawable/ic_main_activity_button_blue" />
@@ -58,7 +58,7 @@
             android:layout_height="wrap_content" />
 
         <ImageView
-            android:id="@+id/imageView19"
+            android:id="@+id/activeDebtsButton"
             android:layout_width="100dp"
             android:layout_height="100dp"
             app:srcCompat="@drawable/ic_main_activity_button_blue" />
@@ -68,7 +68,7 @@
             android:layout_height="wrap_content" />
 
         <ImageView
-            android:id="@+id/imageView22"
+            android:id="@+id/settingsButton"
             android:layout_width="100dp"
             android:layout_height="100dp"
             app:srcCompat="@drawable/ic_main_activity_button_orange" />
