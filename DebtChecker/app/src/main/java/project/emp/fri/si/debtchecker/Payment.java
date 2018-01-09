@@ -10,11 +10,11 @@ import java.util.Date;
  * Created by Jan on 9. 01. 2018.
  */
 
-public class Payment implements Comparable<Payment>{
+public class Payment implements Comparable<Payment> {
 
     private int paymentId;
     private double amount;
-    private String date;
+    private Date date;
     private int payerId, recipientId;
 
     public Payment(String dataStr) {
@@ -22,12 +22,12 @@ public class Payment implements Comparable<Payment>{
         String[] dataArr = dataStr.split(" ");
         this.paymentId = Integer.parseInt(dataArr[0]);
         this.amount = Double.parseDouble(dataArr[1]);
-        this.date = dataArr[2];
+        this.date = new Date(Long.parseLong(dataArr[2]));
         this.payerId = Integer.parseInt(dataArr[3]);
         this.recipientId = Integer.parseInt(dataArr[4]);
     }
 
-    public Payment(int paymentId, int payerId, int recipientId, double amount, String date) {
+    public Payment(int paymentId, int payerId, int recipientId, double amount, Date date) {
 
         this.paymentId = paymentId;
         this.amount = amount;
@@ -45,11 +45,11 @@ public class Payment implements Comparable<Payment>{
         this.amount = amount;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
@@ -84,16 +84,6 @@ public class Payment implements Comparable<Payment>{
 
     @Override
     public int compareTo(@NonNull Payment o) {
-        SimpleDateFormat datum_format = new SimpleDateFormat("dd.MM.yyyy");
-        Date d1 = new Date();
-        Date d2 = new Date();
-        try{
-            d1 = datum_format.parse(this.date);
-            d2 = datum_format.parse(o.getDate());
-        }catch(ParseException e){
-            e.toString();
-        }finally{
-            return d1.compareTo(d2);
-        }
+        return this.date.compareTo(o.getDate());
     }
 }
