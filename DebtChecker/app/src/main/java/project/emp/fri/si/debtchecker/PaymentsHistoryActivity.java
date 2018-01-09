@@ -108,7 +108,6 @@ public class PaymentsHistoryActivity extends AppCompatActivity {
                 amountView.setText("+"+amount+"€");
             }
 
-
             contentInnerLayout.addView(nameView);
             contentInnerLayout.addView(dateView);
             contentLayout.addView(amountView);

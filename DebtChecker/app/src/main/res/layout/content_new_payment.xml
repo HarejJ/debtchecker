@@ -1,17 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/backgroundColor"
+    android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    android:orientation="horizontal"
     tools:context="project.emp.fri.si.debtchecker.NewPaymentActivity"
     tools:showIn="@layout/activity_new_payment">
 
+    <TextView
+        android:id="@+id/new_payment_recivier_textView"
+        android:layout_width="84dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/new_payment_recivier" />
+
     <AutoCompleteTextView
-        android:id="@+id/autoCompleteTextView"
+        android:id="@+id/recivier_textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/new_payment_amount_textView"
+        android:layout_width="84dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/new_payment_amount" />
+
+    <EditText
+        android:id="@+id/amount_textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:inputType="numberDecimal" />
+
+    <EditText
+        android:id="@+id/new_payment_date_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="AutoCompleteTextView" />
-</android.support.v7.widget.LinearLayoutCompat>
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:clickable="false"
+        android:enabled="false"
+        android:ems="10"
+        android:inputType="date" />
+
+    <ImageView
+        android:id="@+id/new_payment_submit_button"
+        android:layout_width="75dp"
+        android:layout_height="69dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        app:srcCompat="@drawable/ic_main_activity_button_orange" />
+
+</LinearLayout>
+
