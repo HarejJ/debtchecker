@@ -32,14 +32,6 @@ public class PaymentsHistoryActivity extends AppCompatActivity {
 
         mainLayout = findViewById(R.id.paymentHistory_mainLayout);
         mainLayout.setOrientation(LinearLayout.VERTICAL);
-        /*
-        Payment[] listOfPayments = new Payment[4];
-
-        listOfPayments[0] = new Payment(1, 10, 12.5, "9.1.2016");
-        listOfPayments[1] = new Payment(11, 1, 32.5, "9.1.2016");
-        listOfPayments[2] = new Payment(11, 10, 1.3, "9.1.2016");
-        listOfPayments[3] = new Payment(1, 11, 0.5, "9.1.2016");
-        */
 
         Payment[] listOfPayments = MainActivity.loggedUser.getPayments();
 
