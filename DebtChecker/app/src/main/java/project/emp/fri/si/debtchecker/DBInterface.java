@@ -91,11 +91,11 @@ public class DBInterface extends AsyncTask<String, Integer, String> {
     static String[] queryPayments(int id) {
 
         String selectStr = "SELECT * FROM Placilo WHERE idPlacnik=" + id + " OR idPrejemnik=" + id;
-        String out = null;
+        String data = null;
+        String[] out = null;
         try {
-            out = new DBInterface("select", null).execute(selectStr).get();
-            System.out.println(out);
-            Log.i("QUERYPAYMENTS", out);
+            data = new DBInterface("select", null).execute(selectStr).get();
+            out = data.split("\n");
 
         } catch (ExecutionException e) {
             e.printStackTrace();
@@ -103,17 +103,14 @@ public class DBInterface extends AsyncTask<String, Integer, String> {
             e.printStackTrace();
         }
 
-        return new String[]{""};
+        return out;
     }
 
     static String queryUserAll(int id) {
-
-        String selectStr = "SELECT * FROM Oseba WHERE id=" + id;
+        String selectString = "SELECT * FROM Oseba WHERE id=" + id;
         String out = null;
         try {
-            Log.v("DBInterfaceClass", "Se neke jdogaja?"+selectStr);
-            out = new DBInterface("select", null).execute(selectStr).get();
-            Log.v("DBInterfaceClass", "Querying for all users attributes |||" + out);
+            out = new DBInterface("select", null).execute(selectString).get();
 
         } catch (ExecutionException e) {
             e.printStackTrace();
@@ -201,7 +198,6 @@ public class DBInterface extends AsyncTask<String, Integer, String> {
                     e.printStackTrace();
                 }
 
-                //this.progressBar.setVisibility(View.VISIBLE);
                 out = sentHttpPOST(url, encodedData, true);
 
                 if (out.length() < 40)
@@ -277,8 +273,7 @@ public class DBInterface extends AsyncTask<String, Integer, String> {
                     StringBuilder sb = new StringBuilder();
                     String line;
                     while ((line = br.readLine()) != null) {
-                        sb.append(line);
-                        sb.append("\n");
+                        sb.append(line + "\n");
                     }
                     br.close();
 

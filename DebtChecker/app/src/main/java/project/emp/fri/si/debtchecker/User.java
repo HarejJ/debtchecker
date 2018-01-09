@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * Created by Jan on 29. 12. 2017.
  */
 
-public class User extends AsyncTask<Integer, Void, Void> {
+public class User {
 
     private int id;
     private String name;
@@ -23,8 +23,21 @@ public class User extends AsyncTask<Integer, Void, Void> {
     User(int id) {
 
         this.id = id;
-        if (id >= 0)
-            this.execute(id);
+        if (id >= 0) {
+            String[] attributes = DBInterface.queryUserAll(this.id).split(" ");
+
+            this.name = attributes[1];
+            this.surname = attributes[2];
+            this.email = attributes[3];
+            this.nickname = attributes[4];
+            this.username = attributes[5];
+            this.password = attributes[6];
+            this.payments = new ArrayList<>();
+
+            String[] payment_dataStrs = DBInterface.queryPayments(this.id);
+            for (String s : payment_dataStrs)
+                this.payments.add(new Payment(s));
+        }
     }
 
     User(int id, String name, String surname, String username, String email, String nickname, String password) {
@@ -36,6 +49,10 @@ public class User extends AsyncTask<Integer, Void, Void> {
         this.email = email;
         this.nickname = nickname;
         this.password = password;
+    }
+
+    public int getId() {
+        return this.id;
     }
 
     public String getName() {
@@ -90,27 +107,7 @@ public class User extends AsyncTask<Integer, Void, Void> {
         return (Payment[]) this.payments.toArray();
     }
 
-
-    @Override
-    protected Void doInBackground(Integer... integers) {
-
-        String[] attributes = DBInterface.queryUserAll(integers[0]).split(" ");
-
-        for (String a : attributes)
-            Log.v("UserClassBackgnd","attr: "+a);
-
-        Log.v("UserClassBackgnd","that were all the attributes");
-
-        this.name = attributes[0];
-        this.surname = attributes[1];
-        this.email = attributes[2];
-        this.nickname = attributes[3];
-        this.username = attributes[4];
-        this.password = attributes[5];
-        this.payments = new ArrayList<>();
-
-        DBInterface.queryPayments(integers[0]);
-        //this.payments.add(new Payment());
-        return null;
+    public String toString() {
+        return id + " " + name + " " + surname + " " + email + " " + username + " " + nickname;
     }
 }

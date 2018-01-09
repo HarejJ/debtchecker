@@ -21,8 +21,9 @@ public class Payment {
         this.recipientId = Integer.parseInt(dataArr[4]);
     }
 
-    public Payment(int payerId, int recipientId, double amount, String date) {
+    public Payment(int paymentId, int payerId, int recipientId, double amount, String date) {
 
+        this.paymentId = paymentId;
         this.amount = amount;
         this.date = date;
         this.payerId = payerId;
@@ -65,5 +66,13 @@ public class Payment {
     public String toString() {
 
         return this.payerId + " " + this.recipientId + " " + this.amount + " " + this.date;
+    }
+
+    public int getPaymentId() {
+        return paymentId;
+    }
+
+    public void setPaymentId(int paymentId) {
+        this.paymentId = paymentId;
     }
 }

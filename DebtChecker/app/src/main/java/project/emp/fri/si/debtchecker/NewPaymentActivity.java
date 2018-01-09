@@ -25,6 +25,8 @@ public class NewPaymentActivity extends AppCompatActivity {
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        System.out.println(MainActivity.loggedUser);
     }
 
 }

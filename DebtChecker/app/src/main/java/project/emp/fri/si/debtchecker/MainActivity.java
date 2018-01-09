@@ -33,13 +33,13 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Init user
+        loggedUser = new User(getIntent().getIntExtra("userID", -1));
+
         addNewButton = (ImageView) findViewById(R.id.addNewButton);
         paymentHistoryButton = (ImageView) findViewById(R.id.paymentHistoryButton);
         activeDebtsButton = (ImageView) findViewById(R.id.activeDebtsButton);
         settingsButton = (ImageView) findViewById(R.id.settingsButton);
-
-        // Init user
-        loggedUser = new User(getIntent().getIntExtra("userID", -1));
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -48,6 +48,14 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 nextActivityIntent = new Intent(MainActivity.this, PaymentsHistoryActivity.class);
+                startActivity(nextActivityIntent);
+            }
+        });
+
+        addNewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nextActivityIntent = new Intent(MainActivity.this, NewPaymentActivity.class);
                 startActivity(nextActivityIntent);
             }
         });

@@ -11,17 +11,19 @@
 	}else{
 
 		$selectString = $_POST['selectString'];
-		$result = mysqli_query($conn,$selectString);
-		$row = mysqli_fetch_row($result);
-		
-		// Array to string with spaces in between
-		$data = implode(" ", $row);
-		
-		if($data){
-			echo $data;
-		}else{
-			echo "Error with data!"
+		$result = mysqli_query($conn, $selectString);
+		$data = "";
+		while(true){
+			$row = mysqli_fetch_row($result);
+			
+			if($row == NULL)
+				break;
+			
+			// Array to string with spaces in between
+			$data = $data . implode(" ", $row) . "\n";
 		}
+  		
+		echo $data;
 		mysqli_close($conn);
 	}
 ?>
