@@ -103,8 +103,8 @@ public class User {
         this.password = password;
     }
 
-    public Payment[] getPayments() {
-        return this.payments.toArray(new Payment[]{});
+    public ArrayList<Payment> getPayments() {
+        return this.payments;
     }
 
     public String toString() {

@@ -1,10 +1,16 @@
 package project.emp.fri.si.debtchecker;
 
+import android.support.annotation.NonNull;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by Jan on 9. 01. 2018.
  */
 
-public class Payment {
+public class Payment implements Comparable<Payment>{
 
     private int paymentId;
     private double amount;
@@ -74,5 +80,20 @@ public class Payment {
 
     public void setPaymentId(int paymentId) {
         this.paymentId = paymentId;
+    }
+
+    @Override
+    public int compareTo(@NonNull Payment o) {
+        SimpleDateFormat datum_format = new SimpleDateFormat("dd.MM.yyyy");
+        Date d1 = new Date();
+        Date d2 = new Date();
+        try{
+            d1 = datum_format.parse(this.date);
+            d2 = datum_format.parse(o.getDate());
+        }catch(ParseException e){
+            e.toString();
+        }finally{
+            return d1.compareTo(d2);
+        }
     }
 }
