@@ -1,57 +1,63 @@
 package project.emp.fri.si.debtchecker;
 
-import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.os.AsyncTask;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 
-public class PaymentsHistoryActivity extends AppCompatActivity {
+/**
+ * Created by Jan on 9. 01. 2018.
+ */
+
+public class LoadPaymentHistoryTask extends AsyncTask<Void, Integer, Void> {
+
+    private PaymentsHistoryActivity activityInstance;
+    private ProgressBar progress;
+    private LinearLayout mainLayout;
+    ArrayList<Payment> payments;
+    HashMap<Integer, String[]> allUsedUsers;
+
+    LoadPaymentHistoryTask(PaymentsHistoryActivity activityInstance, ProgressBar progress, LinearLayout mainLayout, ArrayList<Payment> payments) {
+
+        this.activityInstance = activityInstance;
+        this.progress = progress;
+        this.mainLayout = mainLayout;
+        this.payments = payments;
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_payments_history);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+    protected void onPreExecute() {
+        super.onPreExecute();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+        allUsedUsers = new HashMap<>();
+
+        for (Payment p : this.payments) {
+            if (p.getPayerId() == MainActivity.loggedUser.getId()) {
+                if(!allUsedUsers.containsKey(p.getRecipientId()))
+                    allUsedUsers.put(p.getRecipientId(), DBInterface.queryUserAll(p.getRecipientId()).split(" "));
+            }else{
+                if(!allUsedUsers.containsKey(p.getPayerId()))
+                    allUsedUsers.put(p.getPayerId(), DBInterface.queryUserAll(p.getPayerId()).split(" "));
             }
-        });
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
-        ScrollView mainScrollView = findViewById(R.id.paymentHistory_scrollViewLayout);
-        mainScrollView.fullScroll(View.FOCUS_DOWN);
-        LinearLayout mainLayout = findViewById(R.id.paymentHistory_mainLayout);
-        //mainLayout.setGravity(Gravity.START);
+        progress.setVisibility(View.VISIBLE);
+        mainLayout.setGravity(Gravity.CENTER);
 
-        ArrayList<Payment> listOfPayments = MainActivity.loggedUser.getPayments();
+    }
 
-        // Get a progressBar and set it min and max
-        ProgressBar progress = findViewById(R.id.paymentHistory_progressBar);
-        progress.setMax(listOfPayments.size());
+    @Override
+    protected Void doInBackground(Void... voids) {
 
-        new LoadPaymentHistoryTask(this, progress, mainLayout, listOfPayments).execute();
-
-        /*
-        Collections.sort(listOfPayments);
+        Collections.sort(this.payments);
 
         String[] userToWriteData;
         String name, surname;
@@ -66,10 +72,10 @@ public class PaymentsHistoryActivity extends AppCompatActivity {
         boolean textColor;
 
         ArrayList<LinearLayout> allEntrys = new ArrayList<>();
-
         SimpleDateFormat sDateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        int currentElement = 0;
 
-        for (Payment p : listOfPayments) {
+        for (Payment p : this.payments) {
             int payerId = p.getPayerId();
             int recipientId = p.getRecipientId();
 
@@ -77,52 +83,52 @@ public class PaymentsHistoryActivity extends AppCompatActivity {
             amount = p.getAmount();
 
             if (payerId == MainActivity.loggedUser.getId()) {
-                userToWriteData = DBInterface.queryUserAll(recipientId).split(" ");
+                userToWriteData = allUsedUsers.get(recipientId);
                 textColor = true; //rdeče
             } else {
-                userToWriteData = DBInterface.queryUserAll(payerId).split(" ");
+                userToWriteData = allUsedUsers.get(payerId);
                 textColor = false;
             }
 
             name = userToWriteData[1];
             surname = userToWriteData[2];
 
-            contentLayout = new LinearLayout(this);
+            contentLayout = new LinearLayout(activityInstance);
             contentLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT));
             contentLayout.setPadding(pxToDp(20), pxToDp(5), pxToDp(20), pxToDp(5));
             if (lineColor)
-                contentLayout.setBackgroundColor(getResources().getColor(R.color.paymentHistoryColor));
+                contentLayout.setBackgroundColor(activityInstance.getResources().getColor(R.color.paymentHistoryColor));
             contentLayout.setOrientation(LinearLayout.VERTICAL);
 
-            contentInnerLayout = new LinearLayout(this);
+            contentInnerLayout = new LinearLayout(activityInstance);
             contentInnerLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT));
             contentInnerLayout.setOrientation(LinearLayout.HORIZONTAL);
 
             contentLayout.addView(contentInnerLayout);
 
-            nameView = new TextView(this);
+            nameView = new TextView(activityInstance);
             nameView.setTextSize(24);
-            nameView.setTextColor(getResources().getColor(R.color.colorPrimary));
+            nameView.setTextColor(activityInstance.getResources().getColor(R.color.colorPrimary));
             nameView.setText(name + " " + surname);
 
-            dateView = new TextView(this);
+            dateView = new TextView(activityInstance);
             dateView.setTextSize(24);
-            dateView.setTextColor(getResources().getColor(R.color.colorPrimary));
+            dateView.setTextColor(activityInstance.getResources().getColor(R.color.colorPrimary));
             dateView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT));
             dateView.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_END);
             dateView.setText(sDateFormat.format(date));
 
-            amountView = new TextView(this);
+            amountView = new TextView(activityInstance);
             amountView.setTextSize(18);
 
             if (textColor) {
-                amountView.setTextColor(getResources().getColor(R.color.paymentHistoryPaied));
+                amountView.setTextColor(activityInstance.getResources().getColor(R.color.paymentHistoryPaied));
                 amountView.setText("-" + amount + "€");
             } else {
-                amountView.setTextColor(getResources().getColor(R.color.paymentHistoryRecived));
+                amountView.setTextColor(activityInstance.getResources().getColor(R.color.paymentHistoryRecived));
                 amountView.setText("+" + amount + "€");
             }
             lineColor = !lineColor;
@@ -132,19 +138,26 @@ public class PaymentsHistoryActivity extends AppCompatActivity {
             contentLayout.addView(amountView);
 
             allEntrys.add(contentLayout);
+            publishProgress(++currentElement);
         }
 
         progress.setVisibility(View.GONE);
         mainLayout.setGravity(Gravity.START);
         for (LinearLayout ll : allEntrys)
             mainLayout.addView(ll);
-        */
+
+        return null;
     }
 
-    public int pxToDp(int dp) {
-        int padding_in_dp = dp;
-        final float scale = getResources().getDisplayMetrics().density;
-        int padding_in_px = (int) (padding_in_dp * scale + 0.5f);
-        return padding_in_px;
+    @Override
+    protected void onProgressUpdate(Integer... integers) {
+        super.onProgressUpdate(integers);
+
+        progress.setProgress(integers[0]);
+    }
+
+    private int pxToDp(int dp) {
+        double scale = activityInstance.getResources().getDisplayMetrics().density;
+        return (int) Math.round(dp * scale + 0.5f);
     }
 }

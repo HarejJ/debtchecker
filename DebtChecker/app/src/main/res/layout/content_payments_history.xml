@@ -11,14 +11,22 @@
     tools:showIn="@layout/activity_payments_history">
 
     <ScrollView
+        android:id="@+id/paymentHistory_scrollViewLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout
             android:id="@+id/paymentHistory_mainLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
+
+            <ProgressBar
+                android:id="@+id/paymentHistory_progressBar"
+                style="?android:attr/progressBarStyleLargeInverse"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"/>
 
         </LinearLayout>
     </ScrollView>
