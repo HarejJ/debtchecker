@@ -3,6 +3,7 @@ package project.emp.fri.si.debtchecker;
 import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -76,7 +77,7 @@ public class DBInterface extends AsyncTask<String, Integer, String> {
         String insertStr = "INSERT INTO " + table + " (" + attNames.toString() + ") VALUES (" + attNames.toString() + ")";
 
         try {
-            String out = new DBInterface("login", null).execute(insertStr).get();
+            String out = new DBInterface("insert", null).execute(insertStr).get();
 
         } catch (ExecutionException e) {
             e.printStackTrace();
@@ -87,13 +88,32 @@ public class DBInterface extends AsyncTask<String, Integer, String> {
         return false;
     }
 
-    static String queryUserAll(int id) {
+    static String[] queryPayments(int id) {
 
-        String insertStr = "SELECT * FROM Oseba WHERE id=" + id;
+        String selectStr = "SELECT * FROM Placilo WHERE idPlacnik=" + id + " OR idPrejemnik=" + id;
         String out = null;
         try {
-            out = new DBInterface("select", null).execute(insertStr).get();
-            System.out.println("***" + out);
+            out = new DBInterface("select", null).execute(selectStr).get();
+            System.out.println(out);
+            Log.i("QUERYPAYMENTS", out);
+
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return new String[]{""};
+    }
+
+    static String queryUserAll(int id) {
+
+        String selectStr = "SELECT * FROM Oseba WHERE id=" + id;
+        String out = null;
+        try {
+            Log.v("DBInterfaceClass", "Se neke jdogaja?"+selectStr);
+            out = new DBInterface("select", null).execute(selectStr).get();
+            Log.v("DBInterfaceClass", "Querying for all users attributes |||" + out);
 
         } catch (ExecutionException e) {
             e.printStackTrace();
@@ -111,12 +131,11 @@ public class DBInterface extends AsyncTask<String, Integer, String> {
             att.append("'" + attribute + "', ");
         att.delete(att.length() - 3, att.length() - 1);
 
-        String insertStr = "SELECT " + att.toString() + " FROM Oseba WHERE id=" + id;
-        System.out.println("***&&" + insertStr);
+        String selectStr = "SELECT " + att.toString() + " FROM Oseba WHERE id=" + id;
         String out = null;
         try {
-            out = new DBInterface("insert", null).execute(insertStr).get();
-            System.out.println("***" + out);
+            out = new DBInterface("insert", null).execute(selectStr).get();
+            //System.out.println("***" + out);
 
         } catch (ExecutionException e) {
             e.printStackTrace();
@@ -258,7 +277,8 @@ public class DBInterface extends AsyncTask<String, Integer, String> {
                     StringBuilder sb = new StringBuilder();
                     String line;
                     while ((line = br.readLine()) != null) {
-                        sb.append(line + "\n");
+                        sb.append(line);
+                        sb.append("\n");
                     }
                     br.close();
 

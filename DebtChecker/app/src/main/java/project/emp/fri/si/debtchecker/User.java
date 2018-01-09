@@ -1,10 +1,15 @@
 package project.emp.fri.si.debtchecker;
 
+import android.os.AsyncTask;
+import android.util.Log;
+
+import java.util.ArrayList;
+
 /**
  * Created by Jan on 29. 12. 2017.
  */
 
-public class User {
+public class User extends AsyncTask<Integer, Void, Void> {
 
     private int id;
     private String name;
@@ -13,22 +18,13 @@ public class User {
     private String email;
     private String nickname;
     private String password;
+    private ArrayList<Payment> payments;
 
     User(int id) {
 
         this.id = id;
-
-        if (id >= 0) {
-            String[] attributes = DBInterface.queryUserAll(id).split(" ");
-            System.out.println(attributes.toString());
-
-            this.name = attributes[0];
-            this.surname = attributes[1];
-            this.email = attributes[2];
-            this.nickname = attributes[3];
-            this.username = attributes[4];
-            this.password = attributes[5];
-        }
+        if (id >= 0)
+            this.execute(id);
     }
 
     User(int id, String name, String surname, String username, String email, String nickname, String password) {
@@ -88,5 +84,33 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Payment[] getPayments() {
+        return (Payment[]) this.payments.toArray();
+    }
+
+
+    @Override
+    protected Void doInBackground(Integer... integers) {
+
+        String[] attributes = DBInterface.queryUserAll(integers[0]).split(" ");
+
+        for (String a : attributes)
+            Log.v("UserClassBackgnd","attr: "+a);
+
+        Log.v("UserClassBackgnd","that were all the attributes");
+
+        this.name = attributes[0];
+        this.surname = attributes[1];
+        this.email = attributes[2];
+        this.nickname = attributes[3];
+        this.username = attributes[4];
+        this.password = attributes[5];
+        this.payments = new ArrayList<>();
+
+        DBInterface.queryPayments(integers[0]);
+        //this.payments.add(new Payment());
+        return null;
     }
 }

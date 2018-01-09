@@ -11,13 +11,17 @@
 	}else{
 
 		$selectString = $_POST['selectString'];
-		$result = mysqli_query($conn, $selectString);
+		$result = mysqli_query($conn,$selectString);
 		$row = mysqli_fetch_row($result);
 		
 		// Array to string with spaces in between
 		$data = implode(" ", $row);
 		
-		echo $data;
+		if($data){
+			echo $data;
+		}else{
+			echo "Error with data!"
+		}
 		mysqli_close($conn);
 	}
 ?>
