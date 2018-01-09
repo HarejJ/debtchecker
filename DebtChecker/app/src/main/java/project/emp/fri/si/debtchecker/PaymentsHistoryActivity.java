@@ -6,8 +6,12 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 public class PaymentsHistoryActivity extends AppCompatActivity {
+
+    private LinearLayout mainLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +29,66 @@ public class PaymentsHistoryActivity extends AppCompatActivity {
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
 
+        mainLayout = findViewById(R.id.paymentHistory_mainLayout);
+        mainLayout.setOrientation(LinearLayout.VERTICAL);
+        /*
+        Payment[] listOfPayments = new Payment[4];
+
+        listOfPayments[0] = new Payment(1, 10, 12.5, "9.1.2016");
+        listOfPayments[1] = new Payment(11, 1, 32.5, "9.1.2016");
+        listOfPayments[2] = new Payment(11, 10, 1.3, "9.1.2016");
+        listOfPayments[3] = new Payment(1, 11, 0.5, "9.1.2016");
+        */
+
+        Payment[] listOfPayments = MainActivity.loggedUser.getPayments();
+
+        // id znesek datum idPlacnik idPrejemnik
+        String[] userToWriteData;
+        String date, name, surname;
+        double amount;
+        LinearLayout contentLayout;
+        LinearLayout contentInnerLayout;
+        TextView nameView;
+        TextView dateView;
+        TextView amountView;
+        for (int i = 0; i < listOfPayments.length; i++){
+            int payerId = listOfPayments[i].getPayerId();
+            int recipientId = listOfPayments[i].getRecipientId();
+
+            date = listOfPayments[i].getDate();
+            amount = listOfPayments[i].getAmount();
+
+            if (payerId == MainActivity.loggedUser.getId()){
+                userToWriteData = DBInterface.queryUserAll(recipientId).split(" ");
+            } else {
+                userToWriteData = DBInterface.queryUserAll(payerId).split(" ");
+            }
+
+            name = userToWriteData[1];
+            surname = userToWriteData[2];
+
+            contentLayout = new LinearLayout(this);
+            contentLayout.setOrientation(LinearLayout.VERTICAL);
+
+            contentInnerLayout = new LinearLayout(this);
+            contentInnerLayout.setOrientation(LinearLayout.HORIZONTAL);
+
+            contentLayout.addView(contentInnerLayout);
+            mainLayout.addView(contentLayout);
+
+            nameView = new TextView(this);
+            nameView.setText(name+" "+surname);
+
+            dateView = new TextView(this);
+            dateView.setText(date);
+
+            amountView = new TextView(this);
+            amountView.setText(amount+"");
+
+            contentInnerLayout.addView(nameView);
+            contentInnerLayout.addView(dateView);
+            contentLayout.addView(amountView);
+        }
+    }
 }
