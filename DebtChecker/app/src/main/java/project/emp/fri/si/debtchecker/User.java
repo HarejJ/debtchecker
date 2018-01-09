@@ -104,7 +104,7 @@ public class User {
     }
 
     public Payment[] getPayments() {
-        return (Payment[]) this.payments.toArray();
+        return this.payments.toArray(new Payment[]{});
     }
 
     public String toString() {
