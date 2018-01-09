@@ -34,11 +34,6 @@
             android:label="@string/title_activity_register"
             android:screenOrientation="userPortrait" />
         <activity
-            android:name=".DebtActivity"
-            android:label="@string/title_activity_debt"
-            android:screenOrientation="userPortrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
             android:screenOrientation="userPortrait"
@@ -47,6 +42,7 @@
             android:name=".NewPaymentActivity"
             android:label="@string/title_activity_new_payment"
             android:parentActivityName=".MainActivity"
+            android:screenOrientation="userPortrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -57,6 +53,15 @@
             android:label="@string/title_activity_payments_history"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="userPortrait"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="project.emp.fri.si.debtchecker.MainActivity" />
+        </activity>
+        <activity
+            android:name=".DebtActivity"
+            android:label="@string/title_activity_debt"
+            android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

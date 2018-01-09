@@ -62,6 +62,25 @@ public class DBInterface extends AsyncTask<String, Integer, String> {
         return true;
     }
 
+    static boolean insertPayment(double amount, String payerId, String recipientId) {
+
+        String insertStr = "INSERT INTO Placilo  VALUES (NULL, '" + amount + "', '" + System.currentTimeMillis() + "', '" + payerId + "', '" + recipientId + "')";
+        try {
+
+            String out = new DBInterface("insert", null).execute(insertStr).get();
+
+            if (!out.equals(""))
+                return false;
+
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return true;
+    }
+
     public static boolean insert(String[] attributeNames, String[] attributeValues, String table, String[] conditions) {
 
         StringBuilder attNames = new StringBuilder("");
@@ -108,6 +127,36 @@ public class DBInterface extends AsyncTask<String, Integer, String> {
 
     static String queryUserAll(int id) {
         String selectString = "SELECT * FROM Oseba WHERE id=" + id;
+        String out = null;
+        try {
+            out = new DBInterface("select", null).execute(selectString).get();
+
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return out;
+    }
+
+    static String queryUsernamesIds(){
+        String selectString = "SELECT id, uporabnisko_ime FROM Oseba";
+        String out = null;
+        try {
+            out = new DBInterface("select", null).execute(selectString).get();
+
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return out;
+    }
+
+    static String queryUserNames() {
+        String selectString = "SELECT uporabnisko_ime FROM Oseba";
         String out = null;
         try {
             out = new DBInterface("select", null).execute(selectString).get();

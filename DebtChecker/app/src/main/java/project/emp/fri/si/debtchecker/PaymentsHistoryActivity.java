@@ -125,7 +125,9 @@ public class PaymentsHistoryActivity extends AppCompatActivity {
                 amountView.setTextColor(getResources().getColor(R.color.paymentHistoryRecived));
                 amountView.setText("+" + amount + "€");
             }
+
             lineColor = !lineColor;
+
 
             contentInnerLayout.addView(nameView);
             contentInnerLayout.addView(dateView);
