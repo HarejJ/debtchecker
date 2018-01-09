@@ -52,6 +52,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="project.emp.fri.si.debtchecker.MainActivity" />
         </activity>
+        <activity
+            android:name=".PaymentsHistoryActivity"
+            android:label="@string/title_activity_payments_history"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="userPortrait"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="project.emp.fri.si.debtchecker.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

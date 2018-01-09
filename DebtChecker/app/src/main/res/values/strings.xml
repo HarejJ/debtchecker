@@ -198,4 +198,8 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="prompt_username">Username</string>
     <string name="title_activity_new_payment">Novo plačilo</string>
+    <string name="title_activity_payments_history">Zgodovina plačil</string>
+    <string name="payment_history_name_test">Jan Harej</string>
+    <string name="payment_history_date_test">9.1.2018</string>
+    <string name="payment_history_value_test">+34,50</string>
 </resources>
