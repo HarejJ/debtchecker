@@ -9,4 +9,9 @@
     tools:context="project.emp.fri.si.debtchecker.NewPaymentActivity"
     tools:showIn="@layout/activity_new_payment">
 
+    <AutoCompleteTextView
+        android:id="@+id/autoCompleteTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="AutoCompleteTextView" />
 </android.support.v7.widget.LinearLayoutCompat>

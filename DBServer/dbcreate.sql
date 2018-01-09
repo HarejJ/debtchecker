@@ -11,8 +11,8 @@ CONSTRAINT id_oseba_pk PRIMARY KEY(id)
 
 CREATE TABLE Placilo(
 id INT AUTO_INCREMENT,
-znesek double NOT NULL,
-datum VARCHAR(10) NOT NULL,
+znesek DOUBLE NOT NULL,
+datum BIGINT NOT NULL,
 idPlacnik INT,
 idPrejemnik INT,
 CONSTRAINT id_placilo_pk PRIMARY KEY(id),
