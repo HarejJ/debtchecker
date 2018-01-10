@@ -114,18 +114,18 @@ public class RegisterActivity extends AppCompatActivity implements DecisionDialo
         boolean registrationOK = makeRegistration();
 
         if (registrationOK) {
-            Toast.makeText(RegisterActivity.this, "You have registered successfully as: " + mUsernameView.getText().toString(), Toast.LENGTH_LONG).show();
+            Toast.makeText(RegisterActivity.this, "Uspešno ste se registriali kot: " + mUsernameView.getText().toString(), Toast.LENGTH_LONG).show();
 
-            Intent nextActivityIntent = new Intent(RegisterActivity.this, MainActivity.class);
+            Intent nextActivityIntent = new Intent(RegisterActivity.this, LoginActivity.class);
             startActivity(nextActivityIntent);
         } else {
-            Toast.makeText(RegisterActivity.this, "Registration failed. Retrying...", Toast.LENGTH_LONG).show();
+            Toast.makeText(RegisterActivity.this, "Registracija spodletela. Ponovni poskus...", Toast.LENGTH_LONG).show();
         }
 
         registrationOK = makeRegistration();
 
         if (!registrationOK) {
-            Toast.makeText(RegisterActivity.this, "Registration failed again. Try again later!", Toast.LENGTH_LONG).show();
+            Toast.makeText(RegisterActivity.this, "Registracija ponovno spodletela. Poskusite kasneje!", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -139,68 +139,68 @@ public class RegisterActivity extends AppCompatActivity implements DecisionDialo
     private boolean checkInputs() {
 
         if (mNameView.getText().toString().length() > 50) {
-            mNameView.setError("Max 50 characters");
+            mNameView.setError("Max 50 črk");
             return false;
         }
 
         if (mSurnameView.getText().toString().length() > 50) {
-            mSurnameView.setError("Max 50 characters");
+            mSurnameView.setError("Max 50 črk");
             return false;
         }
 
         if (mEmailView.getText().toString().length() > 50) {
-            mEmailView.setError("Max 50 characters");
+            mEmailView.setError("Max 50 črk");
             return false;
         }
 
         if (mNicknameView.getText().toString().length() > 50) {
-            mNicknameView.setError("Max 50 characters");
+            mNicknameView.setError("Max 50 črk");
             return false;
         }
 
         if (mUsernameView.getText().toString().length() > 50) {
-            mUsernameView.setError("Max 50 characters");
+            mUsernameView.setError("Max 50 črk");
             return false;
         }
 
         if (mPasswordView0.getText().toString().length() > 50) {
-            mPasswordView0.setError("Max 50 characters");
+            mPasswordView0.setError("Max 50 črk");
             return false;
         }
 
         if (mPasswordView1.getText().toString().length() > 50) {
-            mPasswordView1.setError("Max 50 characters");
+            mPasswordView1.setError("Max 50 črk");
             return false;
         }
 
-        if (mNameView.getText().toString().isEmpty()) {
-            mNameView.setError("Field empty");
+        if (mNameView.getText().toString().length() < 4) {
+            mNameView.setError("Min 4 črke");
             return false;
         }
 
-        if (mUsernameView.getText().toString().isEmpty()) {
-            mUsernameView.setError("Field empty");
+        if (mUsernameView.getText().toString().length() < 4) {
+            mUsernameView.setError("Min 4 črke");
             return false;
         }
 
-        if (mEmailView.getText().toString().isEmpty()) {
-            mEmailView.setError("Field empty");
+        if (mEmailView.getText().toString().length() < 4) {
+            mEmailView.setError("Min 4 črke");
             return false;
         }
 
-        if (mPasswordView0.getText().toString().isEmpty()) {
-            mPasswordView0.setError("Field empty");
+        if (mPasswordView0.getText().toString().length() < 4) {
+            mPasswordView0.setError("Min 4 črke");
             return false;
         }
 
-        if (mPasswordView1.getText().toString().isEmpty()) {
-            mPasswordView1.setError("Field empty");
+        if (mPasswordView1.getText().toString().length() < 4) {
+            mPasswordView1.setError("Min 4 črke");
             return false;
         }
 
         if (!mPasswordView0.getText().toString().equals(mPasswordView1.getText().toString())) {
-            mPasswordView0.setError("Passwords do not match");
-            mPasswordView1.setError("Passwords do not match");
+            mPasswordView0.setError("Gesli se ne ujemata");
+            mPasswordView1.setError("Gesli se ne ujemata");
             return false;
         }
 

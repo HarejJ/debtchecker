@@ -34,9 +34,7 @@ public class User {
             this.password = attributes[6];
             this.payments = new ArrayList<>();
 
-            String[] payment_dataStrs = DBInterface.queryPayments(this.id);
-            for (String s : payment_dataStrs)
-                this.payments.add(new Payment(s));
+            updatePayments();
         }
     }
 
@@ -105,6 +103,15 @@ public class User {
 
     public ArrayList<Payment> getPayments() {
         return this.payments;
+    }
+
+    public void updatePayments() {
+        String[] payment_dataStrs = DBInterface.queryPayments(this.id);
+        if (payment_dataStrs.length > 0)
+            for (String s : payment_dataStrs) {
+                if (!s.isEmpty())
+                    this.payments.add(new Payment(s));
+            }
     }
 
     public String toString() {

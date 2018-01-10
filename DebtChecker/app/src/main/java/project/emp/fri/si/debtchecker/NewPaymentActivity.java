@@ -79,6 +79,7 @@ public class NewPaymentActivity extends AppCompatActivity {
                 recivierTextView.setText("");
                 amountView.setText("");
                 Toast.makeText(NewPaymentActivity.this, "Plačilo uspešno dodano!", Toast.LENGTH_SHORT).show();
+                MainActivity.loggedUser.updatePayments();
             }
         });
     }

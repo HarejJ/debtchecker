@@ -23,8 +23,6 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialogFr
     private AutoCompleteTextView mUsernameView;
     private EditText mPasswordView;
     private Button mSignInBtnView;
-    private View mProgressView;
-    private View mLoginFormView;
 
     // Next activity
     Intent nextActivityIntent = null;
@@ -38,7 +36,6 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialogFr
         mUsernameView = findViewById(R.id.email);
         mPasswordView = findViewById(R.id.password);
         mSignInBtnView = findViewById(R.id.sign_in_button);
-        mProgressView = findViewById(R.id.login_progress);
 
         mSignInBtnView.setOnClickListener(new OnClickListener() {
             @Override
@@ -53,7 +50,7 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialogFr
                     startActivity(nextActivityIntent);
 
                     // Just display the value
-                    Toast.makeText(LoginActivity.this, "You are now logged in as: " + mUsernameView.getText().toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Prijavljen si kot: " + mUsernameView.getText().toString(), Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -64,7 +61,7 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialogFr
     private int tryLogin(String user, String password) {
 
         try {
-            String[] out = new DBInterface("login", this.mProgressView).execute(user).get().split(" ");
+            String[] out = new DBInterface("login").execute(user).get().split(" ");
 
             if (out[0].equals("noResult")) {
                 // Setup next activity for register activity and add extra data to it (in case a user selects yes)
@@ -75,6 +72,7 @@ public class LoginActivity extends AppCompatActivity implements RegisterDialogFr
                 // Show a dialog fragment
                 RegisterDialogFragment regDial = new RegisterDialogFragment();
                 regDial.show(getFragmentManager(), "Register?");
+                return -3;
             }else if (out[1].equals(DBInterface.encryptSHA256(password)))
                 return Integer.parseInt(out[0]);
 

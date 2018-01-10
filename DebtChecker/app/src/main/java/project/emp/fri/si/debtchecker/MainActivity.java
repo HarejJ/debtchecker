@@ -36,12 +36,12 @@ public class MainActivity extends AppCompatActivity
         // Init user
         loggedUser = new User(getIntent().getIntExtra("userID", -1));
 
-        addNewButton = (ImageView) findViewById(R.id.addNewButton);
-        paymentHistoryButton = (ImageView) findViewById(R.id.paymentHistoryButton);
-        activeDebtsButton = (ImageView) findViewById(R.id.activeDebtsButton);
-        settingsButton = (ImageView) findViewById(R.id.settingsButton);
+        addNewButton = findViewById(R.id.addNewButton);
+        paymentHistoryButton = findViewById(R.id.paymentHistoryButton);
+        activeDebtsButton = findViewById(R.id.activeDebtsButton);
+        settingsButton = findViewById(R.id.settingsButton);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         paymentHistoryButton.setOnClickListener(new View.OnClickListener() {
@@ -60,10 +60,17 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+
         activeDebtsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 nextActivityIntent = new Intent(MainActivity.this, DebtActivity.class);
+
+        settingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nextActivityIntent = new Intent(MainActivity.this, SettingsActivity.class);
+
                 startActivity(nextActivityIntent);
             }
         });
