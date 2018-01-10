@@ -77,7 +77,8 @@ public class DebtActivity extends AppCompatActivity {
             userNameTextView.setGravity(Gravity.CENTER);
             userNameTextView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT));
-            userNameTextView.setTextSize(20);
+            userNameTextView.setPadding(20, 20, 20, 20);
+            userNameTextView.setTextSize(24);
             userNameTextView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
             userNameTextView.setText(username);
 
@@ -85,8 +86,14 @@ public class DebtActivity extends AppCompatActivity {
             amountTextView.setGravity(Gravity.END);
             amountTextView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT));
+            amountTextView.setPadding(20, 20, 20, 20);
             amountTextView.setTextSize(24);
-            amountTextView.setText(value+"");
+            if (value < 0)
+                amountTextView.setTextColor(getResources().getColor(R.color.paymentHistoryRecived));
+            else
+                amountTextView.setTextColor(getResources().getColor(R.color.paymentHistoryPaied));
+
+            amountTextView.setText(String.format("%.2f", value)+"");
 
             lineColor = !lineColor;
 
