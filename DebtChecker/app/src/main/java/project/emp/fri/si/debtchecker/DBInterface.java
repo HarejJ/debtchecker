@@ -125,7 +125,45 @@ public class DBInterface extends AsyncTask<String, Integer, String> {
         String selectString = "SELECT id, uporabnisko_ime FROM Oseba";
         String out = null;
         try {
+
             out = new DBInterface("select").execute(selectString).get();
+
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return out;
+    }
+
+    static String queryUserNames(int id) {
+        String selectString = "SELECT uporabnisko_ime FROM Oseba WHERE id="+ id;
+        String out = null;
+        try {
+            out = new DBInterface("select").execute(selectString).get();
+
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return out;
+    }
+
+    static String queryUser(String[] attributes, int id) {
+
+        StringBuilder att = new StringBuilder("");
+        for (String attribute : attributes)
+            att.append("'" + attribute + "', ");
+        att.delete(att.length() - 3, att.length() - 1);
+
+        String selectStr = "SELECT " + att.toString() + " FROM Oseba WHERE id=" + id;
+        String out = null;
+        try {
+            out = new DBInterface("select").execute(selectStr).get();
+
 
         } catch (ExecutionException e) {
             e.printStackTrace();
