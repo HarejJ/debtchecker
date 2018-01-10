@@ -17,6 +17,22 @@
         android:layout_height="200dp"
         android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:text="@string/app_name"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimary"
+            android:textSize="50sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/version"
+            android:textAlignment="center"
+            android:textColor="@color/themeColorOrange" />
     </LinearLayout>
 
     <GridLayout
@@ -41,7 +57,7 @@
             android:id="@+id/addNewButton"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            app:srcCompat="@drawable/ic_main_activity_button_orange" />
+            app:srcCompat="@drawable/ic_main_activity_add_payment" />
 
         <Space
             android:layout_width="wrap_content"
@@ -51,7 +67,7 @@
             android:id="@+id/paymentHistoryButton"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            app:srcCompat="@drawable/ic_main_activity_button_blue" />
+            app:srcCompat="@drawable/ic_main_activity_history" />
 
         <Space
             android:layout_width="wrap_content"
@@ -61,7 +77,7 @@
             android:id="@+id/activeDebtsButton"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            app:srcCompat="@drawable/ic_main_activity_button_blue" />
+            app:srcCompat="@drawable/ic_main_activity_debt" />
 
         <Space
             android:layout_width="wrap_content"
@@ -71,7 +87,7 @@
             android:id="@+id/settingsButton"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            app:srcCompat="@drawable/ic_main_activity_button_orange" />
+            app:srcCompat="@drawable/ic_main_activity_settings" />
 
         <Space
             android:layout_width="wrap_content"

@@ -61,7 +61,7 @@
         android:layout_height="69dp"
         android:layout_gravity="center"
         android:layout_marginTop="30dp"
-        app:srcCompat="@drawable/ic_main_activity_button_orange" />
+        app:srcCompat="@drawable/ic_main_activity_add_payment" />
 
 </LinearLayout>
 

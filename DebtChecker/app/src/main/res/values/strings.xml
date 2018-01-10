@@ -124,4 +124,5 @@
     <string name="settings_prompt_write_password">Vpišite staro geslo za potrditev spremembe</string>
     <string name="settings_button_update">Posodobi podatke</string>
     <string name="settings_subtitle">Uredite želene podatke</string>
+    <string name="version">Verzija 0.6a</string>
 </resources>
