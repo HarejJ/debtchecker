@@ -14,4 +14,8 @@
     <color name="paymentHistoryColor">#cacbce</color>
     <color name="paymentHistoryRecived">#16af4b</color>
     <color name="paymentHistoryPaied">#ac1f23</color>
+
+    <!-- Barve za gumbe v debtActivity -->
+    <color name="themeColorOrange">#f3955d</color>
+
 </resources>
