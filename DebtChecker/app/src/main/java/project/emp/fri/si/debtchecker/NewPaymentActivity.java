@@ -36,7 +36,7 @@ public class NewPaymentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_payment);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
         dateView = findViewById(R.id.new_payment_date_view);
         submitButton = findViewById(R.id.new_payment_submit_button);
