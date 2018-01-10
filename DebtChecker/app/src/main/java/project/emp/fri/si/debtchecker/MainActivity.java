@@ -60,10 +60,17 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+
+        activeDebtsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nextActivityIntent = new Intent(MainActivity.this, DebtActivity.class);
+
         settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 nextActivityIntent = new Intent(MainActivity.this, SettingsActivity.class);
+
                 startActivity(nextActivityIntent);
             }
         });
