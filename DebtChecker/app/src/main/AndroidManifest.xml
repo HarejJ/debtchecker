@@ -62,6 +62,7 @@
             android:name=".DebtActivity"
             android:label="@string/title_activity_debt"
             android:parentActivityName=".MainActivity"
+            android:screenOrientation="userPortrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

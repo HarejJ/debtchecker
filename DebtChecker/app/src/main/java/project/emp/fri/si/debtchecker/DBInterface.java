@@ -155,8 +155,8 @@ public class DBInterface extends AsyncTask<String, Integer, String> {
         return out;
     }
 
-    static String queryUserNames() {
-        String selectString = "SELECT uporabnisko_ime FROM Oseba";
+    static String queryUserNames(int id) {
+        String selectString = "SELECT uporabnisko_ime FROM Oseba WHERE id="+ id;
         String out = null;
         try {
             out = new DBInterface("select", null).execute(selectString).get();
