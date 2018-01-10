@@ -15,7 +15,7 @@
 		$result = mysqli_query($conn, $insertString);
 		
 		mysqli_commit($conn);
-		$data = mysqli_fetch_row(mysqli_query($conn, "SELECT MAX( id ) FROM Oseba"))[0];
+		$data = "";
 		
 		echo $data;
 		mysqli_close($conn);

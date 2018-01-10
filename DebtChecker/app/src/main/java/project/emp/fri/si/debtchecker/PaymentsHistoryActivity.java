@@ -35,7 +35,7 @@ public class PaymentsHistoryActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
         ScrollView mainScrollView = findViewById(R.id.paymentHistory_scrollViewLayout);
         mainScrollView.fullScroll(View.FOCUS_DOWN);
@@ -49,98 +49,6 @@ public class PaymentsHistoryActivity extends AppCompatActivity {
         progress.setMax(listOfPayments.size());
 
         new LoadPaymentHistoryTask(this, progress, mainLayout, listOfPayments).execute();
-
-        /*
-        Collections.sort(listOfPayments);
-
-        String[] userToWriteData;
-        String name, surname;
-        Date date;
-        double amount;
-        LinearLayout contentLayout;
-        LinearLayout contentInnerLayout;
-        TextView nameView;
-        TextView dateView;
-        TextView amountView;
-        boolean lineColor = true;
-        boolean textColor;
-
-        ArrayList<LinearLayout> allEntrys = new ArrayList<>();
-
-        SimpleDateFormat sDateFormat = new SimpleDateFormat("dd.MM.yyyy");
-
-        for (Payment p : listOfPayments) {
-            int payerId = p.getPayerId();
-            int recipientId = p.getRecipientId();
-
-            date = p.getDate();
-            amount = p.getAmount();
-
-            if (payerId == MainActivity.loggedUser.getId()) {
-                userToWriteData = DBInterface.queryUserAll(recipientId).split(" ");
-                textColor = true; //rdeče
-            } else {
-                userToWriteData = DBInterface.queryUserAll(payerId).split(" ");
-                textColor = false;
-            }
-
-            name = userToWriteData[1];
-            surname = userToWriteData[2];
-
-            contentLayout = new LinearLayout(this);
-            contentLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT));
-            contentLayout.setPadding(pxToDp(20), pxToDp(5), pxToDp(20), pxToDp(5));
-            if (lineColor)
-                contentLayout.setBackgroundColor(getResources().getColor(R.color.paymentHistoryColor));
-            contentLayout.setOrientation(LinearLayout.VERTICAL);
-
-            contentInnerLayout = new LinearLayout(this);
-            contentInnerLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT));
-            contentInnerLayout.setOrientation(LinearLayout.HORIZONTAL);
-
-            contentLayout.addView(contentInnerLayout);
-
-            nameView = new TextView(this);
-            nameView.setTextSize(24);
-            nameView.setTextColor(getResources().getColor(R.color.colorPrimary));
-            nameView.setText(name + " " + surname);
-
-            dateView = new TextView(this);
-            dateView.setTextSize(24);
-            dateView.setTextColor(getResources().getColor(R.color.colorPrimary));
-            dateView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT));
-            dateView.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_END);
-            dateView.setText(sDateFormat.format(date));
-
-            amountView = new TextView(this);
-            amountView.setTextSize(18);
-
-            if (textColor) {
-                amountView.setTextColor(getResources().getColor(R.color.paymentHistoryPaied));
-                amountView.setText("-" + amount + "€");
-            } else {
-                amountView.setTextColor(getResources().getColor(R.color.paymentHistoryRecived));
-                amountView.setText("+" + amount + "€");
-            }
-
-            lineColor = !lineColor;
-
-
-            contentInnerLayout.addView(nameView);
-            contentInnerLayout.addView(dateView);
-            contentLayout.addView(amountView);
-
-            allEntrys.add(contentLayout);
-        }
-
-        progress.setVisibility(View.GONE);
-        mainLayout.setGravity(Gravity.START);
-        for (LinearLayout ll : allEntrys)
-            mainLayout.addView(ll);
-        */
     }
 
     public int pxToDp(int dp) {

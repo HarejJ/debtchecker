@@ -22,8 +22,8 @@ public class LoadPaymentHistoryTask extends AsyncTask<Void, Integer, Void> {
     private PaymentsHistoryActivity activityInstance;
     private ProgressBar progress;
     private LinearLayout mainLayout;
-    ArrayList<Payment> payments;
-    HashMap<Integer, String[]> allUsedUsers;
+    private ArrayList<Payment> payments;
+    private HashMap<Integer, String[]> allUsedUsers;
 
     LoadPaymentHistoryTask(PaymentsHistoryActivity activityInstance, ProgressBar progress, LinearLayout mainLayout, ArrayList<Payment> payments) {
 

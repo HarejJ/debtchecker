@@ -34,13 +34,20 @@ public class DBInterface extends AsyncTask<String, Integer, String> {
     private static final String DBPASS = "clumbsyhack3r";
 
     private String operation_type;
-    private View progressBar;
 
 
-    DBInterface(String operation_type, View progress) {
+    DBInterface(String operation_type) {
 
         this.operation_type = operation_type;
-        this.progressBar = progress;
+    }
+
+    static boolean updateUser(int id, String name, String surname, String email, String username, String password) {
+
+        String updateStr = "UPDATE Oseba SET ime='" + name + "',priimek='" + surname + "',e_mail='" + email + "',uporabnisko_ime='" + username + "',uporabnisko_geslo='" + password + "' WHERE id=" + id;
+        System.out.println("***" + updateStr);
+        new DBInterface("insert").execute(updateStr);
+
+        return true;
     }
 
     static boolean insertUser(String name, String surname, String email, String nickname, String username, String password) {
@@ -48,7 +55,7 @@ public class DBInterface extends AsyncTask<String, Integer, String> {
         String insertStr = "INSERT INTO Oseba VALUES (NULL, '" + name + "', '" + surname + "', '" + email + "', '" + nickname + "', '" + username + "', '" + DBInterface.encryptSHA256(password) + "')";
         try {
 
-            String out = new DBInterface("insert", null).execute(insertStr).get();
+            String out = new DBInterface("insert").execute(insertStr).get();
 
             if (!out.equals(""))
                 return false;
@@ -64,10 +71,10 @@ public class DBInterface extends AsyncTask<String, Integer, String> {
 
     static boolean insertPayment(double amount, String payerId, String recipientId) {
 
-        String insertStr = "INSERT INTO Placilo  VALUES (NULL, '" + amount + "', '" + System.currentTimeMillis() + "', '" + payerId + "', '" + recipientId + "')";
+        String insertStr = "INSERT INTO Placilo VALUES (NULL, '" + amount + "', '" + System.currentTimeMillis() + "', '" + payerId + "', '" + recipientId + "')";
         try {
 
-            String out = new DBInterface("insert", null).execute(insertStr).get();
+            String out = new DBInterface("insert").execute(insertStr).get();
 
             if (!out.equals(""))
                 return false;
@@ -81,39 +88,13 @@ public class DBInterface extends AsyncTask<String, Integer, String> {
         return true;
     }
 
-    public static boolean insert(String[] attributeNames, String[] attributeValues, String table, String[] conditions) {
-
-        StringBuilder attNames = new StringBuilder("");
-        for (String attName : attributeNames)
-            attNames.append("'" + attName + "', ");
-        attNames.delete(attNames.length() - 3, attNames.length() - 1);
-
-        StringBuilder attValues = new StringBuilder("");
-        for (String attValue : attributeValues)
-            attNames.append("'" + attValues + "', ");
-        attNames.delete(attNames.length() - 3, attNames.length() - 1);
-
-        String insertStr = "INSERT INTO " + table + " (" + attNames.toString() + ") VALUES (" + attNames.toString() + ")";
-
-        try {
-            String out = new DBInterface("insert", null).execute(insertStr).get();
-
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        return false;
-    }
-
     static String[] queryPayments(int id) {
 
         String selectStr = "SELECT * FROM Placilo WHERE idPlacnik=" + id + " OR idPrejemnik=" + id;
         String data = null;
         String[] out = null;
         try {
-            data = new DBInterface("select", null).execute(selectStr).get();
+            data = new DBInterface("select").execute(selectStr).get();
             out = data.split("\n");
 
         } catch (ExecutionException e) {
@@ -129,7 +110,7 @@ public class DBInterface extends AsyncTask<String, Integer, String> {
         String selectString = "SELECT * FROM Oseba WHERE id=" + id;
         String out = null;
         try {
-            out = new DBInterface("select", null).execute(selectString).get();
+            out = new DBInterface("select").execute(selectString).get();
 
         } catch (ExecutionException e) {
             e.printStackTrace();
@@ -140,11 +121,11 @@ public class DBInterface extends AsyncTask<String, Integer, String> {
         return out;
     }
 
-    static String queryUsernamesIds(){
+    static String queryUsernamesIds() {
         String selectString = "SELECT id, uporabnisko_ime FROM Oseba";
         String out = null;
         try {
-            out = new DBInterface("select", null).execute(selectString).get();
+            out = new DBInterface("select").execute(selectString).get();
 
         } catch (ExecutionException e) {
             e.printStackTrace();
@@ -153,54 +134,6 @@ public class DBInterface extends AsyncTask<String, Integer, String> {
         }
 
         return out;
-    }
-
-    static String queryUserNames() {
-        String selectString = "SELECT uporabnisko_ime FROM Oseba";
-        String out = null;
-        try {
-            out = new DBInterface("select", null).execute(selectString).get();
-
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        return out;
-    }
-
-    static String queryUser(String[] attributes, int id) {
-
-        StringBuilder att = new StringBuilder("");
-        for (String attribute : attributes)
-            att.append("'" + attribute + "', ");
-        att.delete(att.length() - 3, att.length() - 1);
-
-        String selectStr = "SELECT " + att.toString() + " FROM Oseba WHERE id=" + id;
-        String out = null;
-        try {
-            out = new DBInterface("insert", null).execute(selectStr).get();
-            //System.out.println("***" + out);
-
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        return out;
-    }
-
-    static String query(String[] attributes, String table, String[] conditions) {
-
-        return querySpecial(attributes, table, null, conditions, null);
-    }
-
-    static String querySpecial(String[] attributes, String table, String[] joins, String[] conditions, String[] group) {
-
-        // Create a query string from the data given... will be done soon.. give a man some time!
-        return null;
     }
 
     static String encryptSHA256(String text) {
@@ -247,7 +180,7 @@ public class DBInterface extends AsyncTask<String, Integer, String> {
                     e.printStackTrace();
                 }
 
-                out = sentHttpPOST(url, encodedData, true);
+                out = sentHttpPOST(url, encodedData);
 
                 if (out.length() < 40)
                     out = "noResult";
@@ -263,7 +196,7 @@ public class DBInterface extends AsyncTask<String, Integer, String> {
                     e.printStackTrace();
                 }
 
-                out = sentHttpPOST(url, encodedData, false);
+                out = sentHttpPOST(url, encodedData);
                 break;
             case "insert":
 
@@ -274,7 +207,7 @@ public class DBInterface extends AsyncTask<String, Integer, String> {
                     e.printStackTrace();
                 }
 
-                out = sentHttpPOST(url, encodedData, true);
+                out = sentHttpPOST(url, encodedData);
                 break;
         }
         return out;
@@ -286,7 +219,7 @@ public class DBInterface extends AsyncTask<String, Integer, String> {
     }
 
     @Nullable
-    private static String sentHttpPOST(String urlConnection, String encodedData, boolean postProgress) {
+    private static String sentHttpPOST(String urlConnection, String encodedData) {
 
         // Basic components needed
         HttpURLConnection c = null;
@@ -335,7 +268,7 @@ public class DBInterface extends AsyncTask<String, Integer, String> {
 
         } catch (IOException ex) {
             Logger.getLogger(DBInterface.class.getName()).log(Level.SEVERE, null, ex);
-            return "Error 1!";
+            return sentHttpPOST(urlConnection, encodedData);
         } finally {
             if (c != null) {
                 try {

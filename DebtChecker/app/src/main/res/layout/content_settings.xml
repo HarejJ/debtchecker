@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="project.emp.fri.si.debtchecker.SettingsActivity"
+    tools:showIn="@layout/activity_settings">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="5dp">
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:textSize="16sp"
+            android:text="@string/settings_subtitle" />
+
+        <EditText
+            android:id="@+id/settings_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:enabled="false"
+            android:hint="@string/prompt_register_name"
+            android:inputType="textPersonName" />
+
+        <EditText
+            android:id="@+id/settings_surname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:enabled="false"
+            android:hint="@string/prompt_register_surname"
+            android:inputType="textPersonName" />
+
+        <EditText
+            android:id="@+id/settings_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:enabled="false"
+            android:hint="@string/prompt_register_email"
+            android:inputType="textEmailAddress" />
+
+        <EditText
+            android:id="@+id/settings_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:enabled="false"
+            android:hint="@string/prompt_register_username"
+            android:inputType="textPersonName" />
+
+        <EditText
+            android:id="@+id/settings_password0"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:enabled="false"
+            android:hint="@string/prompt_new_password"
+            android:inputType="textPassword" />
+
+        <EditText
+            android:id="@+id/settings_password1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:enabled="false"
+            android:hint="@string/prompt_new_password"
+            android:inputType="textPassword" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/settings_confirm_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/settings_button_edit" />
+
+            <Button
+                android:id="@+id/settings_update_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:enabled="false"
+                android:text="@string/settings_button_update" />
+
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/settings_hidden"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/prompt_new_password"
+            android:inputType="textPassword"
+            android:visibility="invisible" />
+
+        <LinearLayout
+            android:id="@+id/settings_layout_old_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="invisible">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_prompt_write_password" />
+
+            <EditText
+                android:id="@+id/settings_password_old"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/prompt_old_password"
+                android:inputType="textPassword" />
+        </LinearLayout>
+
+    </LinearLayout>
+</android.support.v7.widget.LinearLayoutCompat>
